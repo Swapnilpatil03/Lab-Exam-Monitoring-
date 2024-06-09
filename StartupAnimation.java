@@ -69,3 +69,5 @@ class SplashScreen {
         window.dispose();
     }
 }
+
+// This Page is all about Startup animation of application
