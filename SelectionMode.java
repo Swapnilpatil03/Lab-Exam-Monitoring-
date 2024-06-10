@@ -51,7 +51,8 @@ public class SelectionMode extends JFrame {
         examinerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Examiner mode selected");
+                dispose();
+                SwingUtilities.invokeLater(() -> new ExaminerSide().setVisible(true));
             }
         });
 
