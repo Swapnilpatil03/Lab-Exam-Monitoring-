@@ -20,7 +20,7 @@ public class StartupAnimation {
 
         // Close the splash screen and open the main application
         splash.closeSplash();
-        SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
+        SwingUtilities.invokeLater(() -> new SelectionMode().setVisible(true));
     }
 }
 
