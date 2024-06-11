@@ -4,9 +4,10 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-public class ExaminerSide extends JFrame {
+public class TestCode extends JFrame {
+    public String examcode;
 
-    public ExaminerSide() {
+    public TestCode() {
         setTitle("Lab Exam Monitoring");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 350);
@@ -74,6 +75,7 @@ public class ExaminerSide extends JFrame {
         btn1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                examcode = tx1.getText();
                 String code = tx1.getText();
                 if (code.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Code cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
@@ -88,7 +90,7 @@ public class ExaminerSide extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ExaminerSide().setVisible(true);
+                new TestCode().setVisible(true);
             }
         });
     }
