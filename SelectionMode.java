@@ -52,7 +52,7 @@ public class SelectionMode extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                SwingUtilities.invokeLater(() -> new ExaminerSide().setVisible(true));
+                SwingUtilities.invokeLater(() -> new TestCode().setVisible(true));
             }
         });
 
