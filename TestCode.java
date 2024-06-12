@@ -1,3 +1,4 @@
+package lab.exam.monitoring;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -109,13 +110,14 @@ public class TestCode extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Starting moderation with code: " + tx1.getText(), "Info", JOptionPane.INFORMATION_MESSAGE);
 
-                    dispose();
-                    new ExaminerSideGUI().setVisible(true);
+                    
                     try {
                         dbconnection();
                     } catch (Exception ae) {
                         System.out.println(ae);
                     }
+                    dispose();
+                    new ExaminerSide().setVisible(true);
                 }
             }
         });
@@ -128,7 +130,7 @@ public class TestCode extends JFrame {
         try {
             examcode = tx1.getText();
             System.out.println(examcode);
-
+            
             String userId = getLocalIpAddress();
             System.out.println(userId);
             // Load the JDBC driver
