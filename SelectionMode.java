@@ -1,7 +1,13 @@
+
 import javax.swing.*;
+import javax.swing.plaf.TreeUI;
+
+import lab.exam.monitoring.TestCode;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 public class SelectionMode extends JFrame {
 
@@ -37,7 +43,8 @@ public class SelectionMode extends JFrame {
         studentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Student mode selected");
+               dispose();
+               new TestCode().setVisible(true);
             }
         });
 
