@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+package lab.exam.monitoring;
 
 import java.awt.*;
 import javax.swing.*;
@@ -15,6 +15,8 @@ import javax.swing.text.Element;
 import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.io.PrintWriter;
+import java.net.InetAddress;
 import javax.swing.JScrollPane;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +31,10 @@ public class CodeEditor extends javax.swing.JFrame {
      * Creates new form StudentSide
      */
     public CodeEditor() {
+        setUndecorated(true);
         initComponents();
+        setLocationRelativeTo(null);
+
          LineNumberComponent lineNumberComponent = new LineNumberComponent(jTextArea1);
         jScrollPane1.setRowHeaderView(lineNumberComponent);
         jScrollPane1.setViewportView(jTextArea1);
@@ -56,10 +61,9 @@ public class CodeEditor extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jButton5 = new javax.swing.JButton();
 
         jButton2.setText("jButton2");
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTextArea1.setColumns(16);
         jTextArea1.setRows(5);
@@ -73,7 +77,12 @@ public class CodeEditor extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jButton3.setForeground(new java.awt.Color(102, 102, 102));
-        jButton3.setText("End Test");
+        jButton3.setText("Back");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Compile ");
 
@@ -96,6 +105,8 @@ public class CodeEditor extends javax.swing.JFrame {
         jTextArea2.setText("Output: \n");
         jScrollPane2.setViewportView(jTextArea2);
 
+        jButton5.setText("End Exam");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,7 +120,9 @@ public class CodeEditor extends javax.swing.JFrame {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                        .addGap(112, 112, 112)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,7 +146,8 @@ public class CodeEditor extends javax.swing.JFrame {
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel2)
-                        .addComponent(jButton3)))
+                        .addComponent(jButton3)
+                        .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -148,6 +162,11 @@ public class CodeEditor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                          
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        setVisible(false);
+    }                                        
+    
     /**
      * @param args the command line arguments
      */
@@ -189,6 +208,7 @@ public class CodeEditor extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
