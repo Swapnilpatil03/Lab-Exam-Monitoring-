@@ -11,11 +11,13 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -187,11 +189,12 @@ public class ServerStart implements Runnable
 				PrintWriter writer = new PrintWriter(clientSock.getOutputStream());
 				clientOutputStreams.add(writer);
 
-//				Thread listener = new Thread(new ClientHandler(clientSock, writer));
-//				listener.start();
-                                String clientPCName = clientSock.getInetAddress().getHostName();
+				
+//                                String clientPCName = clientSock.getInetAddress().getHostName();
 				ta_chat.append("Got a connection from " + clientPCName + ".\n");
-                                addClientPCName(clientPCName);
+//                                addClientPCName(clientPCName);
+                                Thread listener = new Thread(new ClientHandler(clientSock, writer));
+				listener.start();
                                 
                                 
 //                                if(connected_systems.getText().toString().equals("")){
@@ -208,11 +211,12 @@ public class ServerStart implements Runnable
             }
         }
     }
-     
+ 
 public void addClientPCName(String clientPCName) {
         // Add the client PC name to the table model
-        tableModel.addRow(new Object[]{});
+//        tableModel.addRow(new Object[]{});
         tableModel.addRow(new Object[]{clientPCName});
+
     }
 private static void closeServerSocket() {
         try {
@@ -270,9 +274,24 @@ private static void closeServerSocket() {
         jLabel8 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableModel2 = new DefaultTableModel() {
+
+            public boolean isCellEditable(int row, int column) {
+                return false; // All cells are uneditable
+            }
+        };
+        tableModel2.addColumn("Name");
+        tableModel2.addColumn("Roll No");
+
+        //tableModel2.addColumn("Roll");
+        jTable2 = new javax.swing.JTable(tableModel2);
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ta_chat = new javax.swing.JTextArea();
@@ -518,6 +537,18 @@ private static void closeServerSocket() {
         jLabel9.setForeground(new java.awt.Color(255, 0, 51));
         jLabel9.setText("+ add apps");
 
+        jLabel10.setText("Set Timer :");
+
+        jTextField1.setText("00:00");
+
+        jButton10.setText("Set ");
+
+        jButton11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jButton11.setText("-10");
+
+        jButton12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jButton12.setText("10+");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -533,13 +564,22 @@ private static void closeServerSocket() {
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel6Layout.createSequentialGroup()
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(28, 28, 28))))
+                                    .addGap(28, 28, 28)))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jButton11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton7)
-                            .addComponent(jButton8)
-                            .addComponent(jButton9))))
-                .addContainerGap(468, Short.MAX_VALUE))
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton12)))
+                .addContainerGap(381, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -558,34 +598,21 @@ private static void closeServerSocket() {
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addContainerGap(334, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12)
+                    .addComponent(jButton10))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab4", jPanel6);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                { new Integer(1), "Swapnil ", "Desktop vb123",  new Boolean(true)},
-                { new Integer(2), "Aditya", "Desktop 123",  new Boolean(true)},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Roll No", "Name", "Device Name", "Present"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jScrollPane4.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-        }
 
         jButton4.setBackground(new java.awt.Color(153, 255, 153));
         jButton4.setText("Download Attendance");
@@ -702,7 +729,7 @@ private static void closeServerSocket() {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-//        jTabbedPane2.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(4);
     }                                        
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
@@ -737,6 +764,9 @@ private static void closeServerSocket() {
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -746,6 +776,7 @@ private static void closeServerSocket() {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -768,8 +799,10 @@ private static void closeServerSocket() {
     private javax.swing.JTabbedPane jTabbedPane1;
     private DefaultTableModel tableModel;
     private javax.swing.JTable jTable1;
+    private DefaultTableModel tableModel2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField server_address;
     private javax.swing.JTextArea ta_chat;
     private javax.swing.JTextField testCode;
@@ -806,21 +839,50 @@ private static void closeServerSocket() {
             {
                 while ((message = reader.readLine()) != null)
                 {
-                    if(message.equals(": :Disconnect"))
+                    if(message.contains(",Connected")){
+                        String data3 = message.replace(",Connected","");
+                        addClientPCName(data3);
+                        System.out.println("Connected "+data3);
+                        
+                    }
+                    
+                    if(message.contains(",Disconnect"))
                          {
-                          System.out.println("Request for disconnect");
-                             int index = users.indexOf(clientPCName);   
-                             if (index != -1) {
-                                    users.remove(index);
-                                    tableModel.removeRow(index);
-                                }
+                          String data2 = message.replace(",Disconnect","");
+                          System.out.println("Diss : "+data2);
+                          removeRowContainingName(data2);
+                          
                          }
+                        
+                    if (message.contains(",Present")) { // Ensure that the received data has exactly two fields
+                            
+                            String data4 = message.replace(",Present","");
+                            String[] data1 = data4.split(",");
+                            tableModel2.addRow(data1);
+                            System.out.println("Received data: " + Arrays.toString(data1)); 
+                          }
+                    
+                    
                 }
             }
             catch (Exception ex) 
              {
                 
              } 
+            
+                   
     }
+       
 }
+   public void removeRowContainingName(String name) {
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            System.out.println(i);
+            String value = tableModel.getValueAt(i, 0).toString(); // Assuming only one column
+            if (name.equalsIgnoreCase(value)) {
+                System.out.println("Font record");
+                tableModel.removeRow(i);
+                break; // Assuming there is only one row with the given name
+            }
+        }
+    }
 }
