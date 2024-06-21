@@ -293,11 +293,8 @@ private static void closeServerSocket() {
         jButton4 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
@@ -307,6 +304,9 @@ private static void closeServerSocket() {
         jLabel12 = new javax.swing.JLabel();
         sec = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jToggleButton3 = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ta_chat = new javax.swing.JTextArea();
 
@@ -573,32 +573,11 @@ private static void closeServerSocket() {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Browser Detection :");
 
-        jButton7.setText("Off");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setText("Pendrive Detection :");
 
-        jButton8.setText("Off");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("App Detection :");
-
-        jButton9.setText("Off");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
 
         jLabel9.setForeground(new java.awt.Color(255, 0, 51));
         jLabel9.setText("+ add apps");
@@ -625,6 +604,27 @@ private static void closeServerSocket() {
 
         jLabel13.setText("sec");
 
+        jToggleButton1.setText("Off");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton2.setText("Off");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton3.setText("Off");
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -635,17 +635,17 @@ private static void closeServerSocket() {
                     .addComponent(jLabel9)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE))))
-                .addContainerGap(231, Short.MAX_VALUE))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(237, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,18 +670,18 @@ private static void closeServerSocket() {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(56, 56, 56)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jButton7))
-                .addGap(32, 32, 32)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jButton8))
-                .addGap(27, 27, 27)
+                    .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addGap(98, 98, 98)
@@ -698,7 +698,7 @@ private static void closeServerSocket() {
                     .addComponent(jLabel13))
                 .addGap(45, 45, 45)
                 .addComponent(jButton10)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab4", jPanel6);
@@ -799,51 +799,6 @@ private static void closeServerSocket() {
              System.exit(0);
     }                                  
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        String a = jButton7.getText();
-        if(a=="On"){
-            jButton7.setText("Off");
-            writer.println("Browser Detection , off");
-            writer.flush();
-        }
-        if(a=="Off")
-        {
-            jButton7.setText("On");
-            writer.println("Browser Detection , On");
-            writer.flush();
-        }
-    }                                        
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-       String a = jButton8.getText();
-        if(a=="On"){
-            jButton8.setText("Off");
-            writer.println("Pendrive Detection , off");
-            writer.flush();
-        }
-        if(a=="Off")
-        {
-            jButton8.setText("On");
-            writer.println("Pendrive Detection , On");
-            writer.flush();
-        }
-    }                                        
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        String a = jButton9.getText();
-        if(a=="On"){
-            jButton9.setText("Off");
-            writer.println("Application Detection , On");
-            writer.flush();
-        }
-        if(a=="Off")
-        {
-            jButton9.setText("On");
-            writer.println("Application Detection , off");
-            writer.flush();
-        }
-    }                                        
-
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
         // TODO add your handling code here:
        if(timer!=null){
@@ -858,6 +813,52 @@ private static void closeServerSocket() {
      
      setTime();
     }                                         
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+        if (jToggleButton1.isSelected()) {
+                    jToggleButton1.setText("On");
+                    writer.println("brdon");
+                    writer.flush();
+                    
+                } else {
+                    jToggleButton1.setText("Off");
+                    writer.println("brdoff");
+                    writer.flush();
+                }
+        writer.flush();
+        
+    }                                              
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+        if (jToggleButton2.isSelected()) {
+                    jToggleButton2.setText("On");
+                    writer.println("pdon");
+                    writer.flush();
+                    
+                } else {
+                    jToggleButton2.setText("Off");
+                    writer.println("pdoff");
+                    writer.flush();
+                }
+        writer.flush();
+    }                                              
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+        if (jToggleButton3.isSelected()) {
+                    jToggleButton1.setText("On");
+                    writer.println("appdon");
+                    writer.flush();
+                    
+                } else {
+                    jToggleButton3.setText("Off");
+                    writer.println("appdoff");
+                    writer.flush();
+                }
+        writer.flush();
+    }                                              
    Timer timer;
     public void setTime(){
        timer = new Timer(1000, new ActionListener() {
@@ -906,8 +907,6 @@ private static void closeServerSocket() {
             }
         });
     }
-    
-    
 
 
     // Variables declaration - do not modify                     
@@ -919,9 +918,6 @@ private static void closeServerSocket() {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -953,6 +949,9 @@ private static void closeServerSocket() {
     private DefaultTableModel tableModel2;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JTextField min;
     private javax.swing.JTextField sec;
     private javax.swing.JTextField server_address;
