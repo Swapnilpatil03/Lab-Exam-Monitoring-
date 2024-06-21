@@ -5,6 +5,15 @@
  */
 package lab.exam.monitoring;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Arrays;
+import javax.swing.Timer;
+
 /**
  *
  * @author Swapnil Patil
@@ -24,7 +33,9 @@ public class StudentMain extends javax.swing.JFrame {
         tc = new Clientconnection();
         sendDataToServer(name, rollNumber);
         initComponents();
+       
         setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -42,6 +53,7 @@ public class StudentMain extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -75,17 +87,26 @@ public class StudentMain extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 168, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(335, 335, 335))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(122, 122, 122)
                         .addComponent(jButton1)
                         .addGap(359, 359, 359))))
             .addGroup(layout.createSequentialGroup()
@@ -116,7 +137,9 @@ public class StudentMain extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -140,6 +163,12 @@ public class StudentMain extends javax.swing.JFrame {
         sendDisconnect();
         System.exit(0);
     }                                  
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        tc.start=false;
+        
+    }                                        
 public void sendDisconnect(){
       if (tc.writer != null) {
         try {
@@ -163,6 +192,7 @@ public void sendDisconnect(){
             
             JoinTestcode c = new JoinTestcode();
             tc.conToExaminer(c.ex);
+            
             tc.writer.println(name+",Connected");
             tc.writer.flush();
             System.out.println("Sending data: Name=" + name + ", RollNumber=" + rollNumber);
@@ -179,10 +209,12 @@ public void sendDisconnect(){
     
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration                   
+
 }
