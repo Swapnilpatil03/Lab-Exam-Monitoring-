@@ -25,7 +25,8 @@ public class Clientconnection {
     public  BufferedReader reader;
     public  PrintWriter writer;
     String username, address;
-
+    public boolean start = false;
+    
     int port = 2222;
     public void conToExaminer(String ex){
         if (isConnected == false) 
@@ -43,9 +44,11 @@ public class Clientconnection {
 //                writer.flush(); 
 //                ta_chat.append("You are Connected to Server.\n");
                 showConfirmDialog(null,"You are Connected to Server. !");
-                Thread listener = new Thread(new ServerListener());
-		listener.start();
+                
                 isConnected = true; 
+                Thread readerThread = new Thread(new IncomingReader());
+                readerThread.start();
+                
             } 
             catch (Exception exx) 
             {
@@ -72,97 +75,67 @@ public class Clientconnection {
             e.printStackTrace();
         }
     }
-    private class ServerListener implements Runnable {
-        
-        Thread listener1 ;
+ 
+    private class IncomingReader implements Runnable {
         public void run() {
+            String message;
             try {
-                System.out.println("iniiii");
-                String message;
                 while ((message = reader.readLine()) != null) {
-                    System.out.println("Received message from server: " + message);
-                    // Parse timer settings and update UI
-                    if (message.contains(",hours")) {
-                        int hours = Integer.parseInt(message.replace(",hours", ""));
-                        int minutes = Integer.parseInt(reader.readLine().replace(",minutes", ""));
-                        int seconds = Integer.parseInt(reader.readLine().replace(",seconds", ""));
-                      System.out.println(hours+minutes+seconds);
-                    }
-                    if(message.contains("Browser Detection , off")){
-                        
-                        System.out.println("Browser detection off");
-                    }
-                    if(message.contains("Browser Detection , On")){
-                        
-                        System.out.println("Browser detection On");
-                    }
-                    if(message.contains("Application Detection , off")){
-                        
-                        System.out.println("Application detection off");
-                    }
-                    if(message.contains("Application Detection , On")){
-                        
-                        System.out.println("Application detection On");
-                    }
-                    if(message.contains("Pendrive Detection , off")){
-                        
-                        System.out.println("Pendrive detection off");
-                        listener1.interrupt();
-                    }
-                    if(message.contains("Pendrive Detection , On")){
-                        
-                        System.out.println("Pendrive detection On");
-                        listener1 = new Thread(new Pendrive());
-                        listener1.start();
-                    }
-                    
+                   if(message.contains("pdon")){
+                       System.out.println(message);
+                       Thread pendriveThread = new Thread(new Pendrive());
+                       pendriveThread.start();
+                       start = true;
+                       System.out.println(start);
+                   }
+                   if(message.contains("pdoff")){
+                       System.out.println(message);
+                       start=false;
+                       
+                   }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     }
     
-private class Pendrive implements Runnable {
-        private volatile boolean running = true;
-    public void run(){
-                try
-                {
-                    File[] oldListRoot = File.listRoots();
-                    while (running && !Thread.currentThread().isInterrupted()   ) {
-                try {
-                    System.out.println("Inside thread");
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                if (File.listRoots().length > oldListRoot.length) {
-                    //System.out.println("new drive detected");
-                    oldListRoot = File.listRoots();
-                    System.out.println("drive" + oldListRoot[oldListRoot.length - 1] + " detected");
-                                            
-                     showMessageDialog(null,"PENDRIVE DETECTED: Please Remove your PENDRIVE");
-                                             
 
-                } else if (File.listRoots().length < oldListRoot.length) {
-                    System.out.println(oldListRoot[oldListRoot.length - 1] + " drive removed");
-                                            showMessageDialog(null,"PENDRIVE DETECTED and REMOVED...");
-                     showMessageDialog(null,"YOU MUST NOT DO IT AGAIN...");
-                    oldListRoot = File.listRoots();
-                                            
-                                                    
-                                                    
-                }
-            }
-                    }
-                    catch(Exception e)
+    private class Pendrive implements Runnable {
+        public void run() {
+            try
                     {
+                        File[] oldListRoot = File.listRoots();
+                        while (start) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (File.listRoots().length > oldListRoot.length) {
+						//System.out.println("new drive detected");
+						oldListRoot = File.listRoots();
+						System.out.println("drive" + oldListRoot[oldListRoot.length - 1] + " detected");
+                                              
+						 showMessageDialog(null,"PENDRIVE DETECTED: Please Remove your PENDRIVE");
+                                                 
 
-                    }           
-        
+					} else if (File.listRoots().length < oldListRoot.length) {
+						System.out.println(oldListRoot[oldListRoot.length - 1] + " drive removed");
+                                                showMessageDialog(null,"PENDRIVE DETECTED and REMOVED...");
+						 showMessageDialog(null,"YOU MUST NOT DO IT AGAIN...");
+						oldListRoot = File.listRoots();
+                                                
+                                                        
+                                                        
+					}
+				}
+                        }
+                        catch(Exception e)
+                        {
+
+                        }
+        }
     }
-    public void stop() {
-        running = false;
-    }
-}
+ 
 }
