@@ -25,7 +25,9 @@ public class Clientconnection {
     public  BufferedReader reader;
     public  PrintWriter writer;
     String username, address;
-    public boolean start = false;
+    public boolean startp = false;
+    public boolean startbr = false;
+    public boolean startapd = false;
     
     int port = 2222;
     public void conToExaminer(String ex){
@@ -85,14 +87,41 @@ public class Clientconnection {
                        System.out.println(message);
                        Thread pendriveThread = new Thread(new Pendrive());
                        pendriveThread.start();
-                       start = true;
-                       System.out.println(start);
+                       startp = true;
+                       System.out.println(startp);
                    }
                    if(message.contains("pdoff")){
                        System.out.println(message);
-                       start=false;
-                       
+                       startp=false;
                    }
+                   
+                   // -------------> for Browser Detection
+                   if(message.contains("brdon")){
+                       System.out.println(message);
+//                       Thread browserd = new Thread(new Browserd());
+//                       browserd.start();
+                       startbr = true;
+                     
+                   }
+                   if(message.contains("brdoff")){
+                       System.out.println(message);
+                       startbr=false;
+                   }
+                   
+                   // ----------------> App detection
+                   
+                   if(message.contains("appdon")){
+                       System.out.println(message);
+                       Thread appd = new Thread(new Appdetect());
+                       appd.start();
+                       startapd = true;
+                     
+                   }
+                   if(message.contains("appdoff")){
+                       System.out.println(message);
+                       startapd = false;
+                   }
+                   
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -106,7 +135,7 @@ public class Clientconnection {
             try
                     {
                         File[] oldListRoot = File.listRoots();
-                        while (start) {
+                        while (startp) {
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
@@ -137,5 +166,51 @@ public class Clientconnection {
                         }
         }
     }
- 
+    private class Appdetect implements Runnable{
+        public void run(){
+            if(startapd)
+                {
+                    
+
+                    String appname;
+                    appname = "netbeans64.exe";
+                    appname.toLowerCase();
+
+                    try
+                    {
+                        String line;
+
+                        String pidInfo =" ";
+
+                           while(pidInfo != appname)
+                           {
+                            pidInfo =" ";
+                            Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+
+                                BufferedReader input =  new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+                                while ((line = input.readLine()) != null)
+                                {
+                                     line.toLowerCase();
+                                    pidInfo.toLowerCase();
+                                    pidInfo+=line;
+                                }
+                                input.close();
+                                if(pidInfo.contains(appname))
+                                {
+                                    //  System.out.println("HI UC Browser !!!!");
+                                    showConfirmDialog(null,"APPLICATION OPENED !!! " +appname);
+                                    
+                                }
+
+                         }
+
+                        }
+                        catch(Exception e)
+                        {
+
+                        }
+                    }
+        }
+    }
 }
