@@ -173,7 +173,7 @@ public class Clientconnection {
                     
 
                     String appname;
-                    appname = "netbeans64.exe";
+                    appname = "chrome.exe";
                     appname.toLowerCase();
 
                     try
@@ -181,9 +181,10 @@ public class Clientconnection {
                         String line;
 
                         String pidInfo =" ";
-
+                            
                            while(pidInfo != appname)
                            {
+                               while(startapd){
                             pidInfo =" ";
                             Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
 
@@ -200,17 +201,44 @@ public class Clientconnection {
                                 {
                                     //  System.out.println("HI UC Browser !!!!");
                                     showConfirmDialog(null,"APPLICATION OPENED !!! " +appname);
-                                    
+                                    closeApplication(appname);
                                 }
 
                          }
-
+                            }
                         }
                         catch(Exception e)
                         {
 
                         }
                     }
+        }
+    }
+    private void closeApplication(String appname) {
+        try {
+            // Get the process ID (PID) of the application
+            Process p = Runtime.getRuntime().exec(System.getenv("windir") + "\\system32\\" + "tasklist.exe");
+
+            BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            String pid = null;
+            
+            while ((line = input.readLine()) != null) {
+                if (line.toLowerCase().contains(appname)) {
+                    String[] parts = line.trim().split("\\s+");
+                    pid = parts[1]; // The PID is usually the second part
+                    break;
+                }
+            }
+            input.close();
+
+            // Terminate the process using its PID
+            if (pid != null) {
+                Runtime.getRuntime().exec("taskkill /F /PID " + pid);
+                showMessageDialog(null, "Application " + appname + " has been closed.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
