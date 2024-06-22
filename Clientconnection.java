@@ -5,13 +5,18 @@
  */
 package lab.exam.monitoring;
 
+import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -199,9 +204,13 @@ public class Clientconnection {
                                 input.close();
                                 if(pidInfo.contains(appname))
                                 {
+//                                  
                                     //  System.out.println("HI UC Browser !!!!");
-                                    showConfirmDialog(null,"APPLICATION OPENED !!! " +appname);
+   
+                                  
                                     closeApplication(appname);
+                                    
+                                    
                                 }
 
                          }
@@ -217,6 +226,33 @@ public class Clientconnection {
     private void closeApplication(String appname) {
         try {
             // Get the process ID (PID) of the application
+             JFrame parentFrame = new JFrame();
+
+             System.out.println("Dialog");
+        // Show the JOptionPane dialog
+        JOptionPane optionPane = new JOptionPane("Restricted App opened!!!", JOptionPane.WARNING_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+        JDialog dialog = optionPane.createDialog("Confirm");
+
+        // Set dialog to be modal (blocks user input to other windows while visible)
+        dialog.setModal(true);
+        dialog.setAlwaysOnTop(true);
+
+        // Create a thread to close the dialog after 2 seconds
+        Thread closeDialogThread = new Thread(() -> {
+            try {
+                Thread.sleep(2000); // Wait for 2 seconds
+                if (dialog.isShowing()) {
+                    dialog.dispose();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        closeDialogThread.start();
+
+        // Show the dialog
+        dialog.setVisible(true);            
             Process p = Runtime.getRuntime().exec(System.getenv("windir") + "\\system32\\" + "tasklist.exe");
 
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -235,7 +271,7 @@ public class Clientconnection {
             // Terminate the process using its PID
             if (pid != null) {
                 Runtime.getRuntime().exec("taskkill /F /PID " + pid);
-                showMessageDialog(null, "Application " + appname + " has been closed.");
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
