@@ -943,7 +943,7 @@ private static void closeServerSocket() {
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
         if (jToggleButton3.isSelected()) {
-                    jToggleButton1.setText("On");
+                    jToggleButton3.setText("On");
                     writer.println("appdon");
                     writer.flush();
                     
