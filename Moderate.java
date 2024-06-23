@@ -311,7 +311,14 @@ private static void closeServerSocket() {
         jPanel8 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listModel = new DefaultListModel<>();
+        listModel.addElement("Chrome");
+        listModel.addElement("Mozilla Firefox");
+        listModel.addElement("Microsoft Edge");
+        listModel.addElement("Brave");
+        listModel.addElement("UC Browser");
+        listModel.addElement("Google");
+        jList1 = new javax.swing.JList<>(listModel);
         jTextField5 = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -742,16 +749,27 @@ private static void closeServerSocket() {
         jList1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 255, 0), new java.awt.Color(153, 153, 153)), "Ban Browser", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         jList1.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
         jList1.setForeground(new java.awt.Color(204, 0, 0));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Chrome", "Moxila Firefox", "Microsoft Edge", "Brave", "UC Browser", "Google", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jList1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
         });
         jScrollPane5.setViewportView(jList1);
 
         jButton7.setText("+ Add");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("- Remove");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1017,7 +1035,52 @@ private static void closeServerSocket() {
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(6);
     }                                    
-   Timer timer;
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        String browse = jTextField5.getText();
+        if (listModel.contains(browse)) {
+                 JOptionPane.showMessageDialog(null, browse + " is present already in the list.");
+       } else {
+            listModel.addElement(browse);
+       } 
+    }                                        
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+        // TODO add your handling code here:
+        if (!evt.getValueIsAdjusting()) {
+                String selectedItem = jList1.getSelectedValue();
+                if (selectedItem != null) {
+                    jTextField5.setText(selectedItem);
+                }
+            }
+    }                                   
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        String text = jTextField5.getText();
+        if (!text.isEmpty()) {
+                    int index = listModel.indexOf(text);
+                    if (index != -1) {
+                        listModel.remove(index);
+                        jTextField5.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null,  "Item not found in the list.");
+                    }
+                }
+
+    }                                        
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    Timer timer;
     public void setTime(){
        timer = new Timer(1000, new ActionListener() {
             @Override
@@ -1097,6 +1160,7 @@ private static void closeServerSocket() {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    public DefaultListModel<String> listModel;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
