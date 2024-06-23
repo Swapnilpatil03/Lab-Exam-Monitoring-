@@ -103,8 +103,8 @@ public class Clientconnection {
                    // -------------> for Browser Detection
                    if(message.contains("brdon")){
                        System.out.println(message);
-//                       Thread browserd = new Thread(new Browserd());
-//                       browserd.start();
+                       Thread browserd = new Thread(new Browsedetect());
+                       browserd.start();
                        startbr = true;
                      
                    }
@@ -171,6 +171,55 @@ public class Clientconnection {
                         }
         }
     }
+    
+    private class Browsedetect implements Runnable{
+        
+        
+        public void run(){
+            try
+           {
+               String line;
+           
+               String pidInfo =" ";
+            
+                while(pidInfo != "firefox.exe")
+                {
+                    if(startbr){
+                  pidInfo =" ";
+                 Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
+
+                 BufferedReader input =  new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+                     while ((line = input.readLine()) != null) 
+                     {
+                              pidInfo+=line; 
+                     }
+                      input.close();
+                      if(pidInfo.contains("firefox.exe"))
+                      {
+                                     
+                           closeApplication("firefox.exe");
+                                
+                      }
+               //       Thread.sleep(5000);
+                }
+               // showConfirmDialog(null,"HELLO UC BROWSER DETECTED !!!!!!");
+                }
+           }
+           catch(Exception e)
+           {
+               
+           }
+            
+        }
+        
+        
+    }
+    
+    
+    
+    
+    
     private class Appdetect implements Runnable{
         public void run(){
             if(startapd)
@@ -189,7 +238,7 @@ public class Clientconnection {
                             
                            while(pidInfo != appname)
                            {
-                               while(startapd){
+                               if(startapd){
                             pidInfo =" ";
                             Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
 
