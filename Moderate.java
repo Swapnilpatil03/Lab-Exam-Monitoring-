@@ -325,7 +325,14 @@ private static void closeServerSocket() {
         jPanel9 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listModel2 = new DefaultListModel<>();
+        listModel2.addElement("Whatsapp");
+        listModel2.addElement("Telegram");
+        listModel2.addElement("Instagram");
+        listModel2.addElement("Twitter");
+        listModel2.addElement("Chatgpt");
+        listModel2.addElement("Bard");
+        jList2 = new javax.swing.JList<>(listModel2);
         jTextField6 = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
@@ -818,16 +825,26 @@ private static void closeServerSocket() {
         jList2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 255, 0), new java.awt.Color(153, 153, 153)), "Ban Apps", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         jList2.setFont(new java.awt.Font("Yu Gothic", 0, 14)); // NOI18N
         jList2.setForeground(new java.awt.Color(204, 0, 0));
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Whatsapp", "Chatgpt", "Blackbox", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList2ValueChanged(evt);
+            }
         });
         jScrollPane6.setViewportView(jList2);
 
         jButton9.setText("+ Add");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         jButton11.setText("- Remove");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -1070,6 +1087,43 @@ private static void closeServerSocket() {
                 }
 
     }                                        
+
+    private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) {                                    
+        // TODO add your handling code here:
+        if (!evt.getValueIsAdjusting()) {
+                String selectedItem = jList2.getSelectedValue();
+                if (selectedItem != null) {
+                    jTextField6.setText(selectedItem);
+                }
+            }
+    }                                   
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        String browse = jTextField6.getText();
+        if (listModel2.contains(browse)) {
+                 JOptionPane.showMessageDialog(null, browse + " is present already in the list.");
+       } else {
+            listModel2.addElement(browse);
+            jTextField6.setText("");
+            
+       } 
+    }                                        
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+        String text = jTextField6.getText();
+        if (!text.isEmpty()) {
+                    int index = listModel2.indexOf(text);
+                    if (index != -1) {
+                        listModel2.remove(index);
+                        jTextField6.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(null,  "Item not found in the list.");
+                    }
+                }
+
+    }                                         
    
     
     
@@ -1162,6 +1216,7 @@ private static void closeServerSocket() {
     private javax.swing.JLabel jLabel9;
     public DefaultListModel<String> listModel;
     private javax.swing.JList<String> jList1;
+    public DefaultListModel<String> listModel2;
     private javax.swing.JList<String> jList2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
