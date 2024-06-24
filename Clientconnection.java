@@ -10,10 +10,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -33,7 +35,7 @@ public class Clientconnection {
     public boolean startp = false;
     public boolean startbr = false;
     public boolean startapd = false;
-    
+     ObjectInputStream in;
     int port = 2222;
     public void conToExaminer(String ex){
         if (isConnected == false) 
@@ -47,6 +49,7 @@ public class Clientconnection {
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());
+                in = new ObjectInputStream(sock.getInputStream());
 //                writer.println(username + ":has connected.:Connect");
 //                writer.flush(); 
 //                ta_chat.append("You are Connected to Server.\n");
@@ -82,12 +85,14 @@ public class Clientconnection {
             e.printStackTrace();
         }
     }
- 
+ ObjectInputStream objectInputStream = null;
+ ArrayList<String> bannedApps;
     private class IncomingReader implements Runnable {
         public void run() {
             String message;
             try {
                 while ((message = reader.readLine()) != null) {
+                    
                    if(message.contains("pdon")){
                        System.out.println(message);
                        Thread pendriveThread = new Thread(new Pendrive());
@@ -103,9 +108,17 @@ public class Clientconnection {
                    // -------------> for Browser Detection
                    if(message.contains("brdon")){
                        System.out.println(message);
-                       Thread browserd = new Thread(new Browsedetect());
-                       browserd.start();
+                       
                        startbr = true;
+                       HashMap<String, ArrayList<String>> listMap = (HashMap<String, ArrayList<String>>) in.readObject();
+                        ArrayList<String> browserListData = listMap.get("browsers");
+
+                        System.out.println("Received browser list data from server:");
+                        for (String element : browserListData) {
+                            System.out.println(element);
+                        }
+                        Thread browserd = new Thread(new Browsedetect(browserListData));
+                       browserd.start();
                      
                    }
                    if(message.contains("brdoff")){
@@ -133,7 +146,7 @@ public class Clientconnection {
             }
         }
     }
-    
+   
 
     private class Pendrive implements Runnable {
         public void run() {
@@ -173,8 +186,10 @@ public class Clientconnection {
     }
     
     private class Browsedetect implements Runnable{
-        
-        
+        private ArrayList<String> browsers;
+        public Browsedetect(ArrayList<String> browsers) {
+            this.browsers = browsers;
+        }
         public void run(){
             try
            {
@@ -182,8 +197,7 @@ public class Clientconnection {
            
                String pidInfo =" ";
             
-                while(pidInfo != "firefox.exe")
-                {
+                
                     if(startbr){
                   pidInfo =" ";
                  Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
@@ -195,16 +209,19 @@ public class Clientconnection {
                               pidInfo+=line; 
                      }
                       input.close();
-                      if(pidInfo.contains("firefox.exe"))
+                      for (String browser : browsers) {
+                          System.out.println(browser);
+                      if(pidInfo.contains(browser))
                       {
                                      
-                           closeApplication("firefox.exe");
+                           closeApplication(browser);
                                 
+                      }
                       }
                //       Thread.sleep(5000);
                 }
                // showConfirmDialog(null,"HELLO UC BROWSER DETECTED !!!!!!");
-                }
+                
            }
            catch(Exception e)
            {
