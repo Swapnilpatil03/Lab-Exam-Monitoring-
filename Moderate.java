@@ -1021,7 +1021,8 @@ private static void closeServerSocket() {
      
      setTime();
     }                                         
-HashMap<String, ArrayList<String>> listMap = new HashMap<>();
+
+
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
         if (jToggleButton1.isSelected()) {
@@ -1029,14 +1030,10 @@ HashMap<String, ArrayList<String>> listMap = new HashMap<>();
                 jToggleButton1.setText("On");
                 writer.println("brdon");
                 writer.flush();
-                ArrayList<String> browserListData = new ArrayList<>();
-                for (int i = 0; i < listModel.size(); i++) {
-                    browserListData.add(listModel.getElementAt(i));
+                 for (int i = 0; i < listModel.size(); i++) {
+                    writer.println(listModel.getElementAt(i)+",banbrowsers");
+                    writer.flush();
                 }
-                listMap.put("browsers", browserListData);
-                out.writeObject(listMap);
-                
-                out.flush();
                 
                 System.out.println("Browser list sent to client.");
 
@@ -1101,6 +1098,8 @@ HashMap<String, ArrayList<String>> listMap = new HashMap<>();
                  JOptionPane.showMessageDialog(null, browse + " is present already in the list.");
        } else {
             listModel.addElement(browse);
+            writer.println(browse+",Browseadd");
+            writer.flush();
        } 
     }                                        
 
@@ -1121,7 +1120,10 @@ HashMap<String, ArrayList<String>> listMap = new HashMap<>();
                     int index = listModel.indexOf(text);
                     if (index != -1) {
                         listModel.remove(index);
+                        writer.println(jTextField5.getText()+",Browseremove");
+                        writer.flush();
                         jTextField5.setText("");
+                        
                     } else {
                         JOptionPane.showMessageDialog(null,  "Item not found in the list.");
                     }
