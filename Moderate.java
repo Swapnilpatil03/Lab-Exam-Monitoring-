@@ -1,6 +1,6 @@
 package lab.exam.monitoring;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionListener;
@@ -29,6 +29,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ObjectOutputStream;
+import java.io.IOException; // Import for IOException handling
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -53,6 +57,8 @@ public InetAddress inet;
     private static int hours = 0;
     private static int minutes = 0;
     private static int seconds = 0;
+    private static ArrayList <String> bannedApps;
+    ObjectOutputStream out;
     public Moderate() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -197,7 +203,7 @@ public class ServerStart implements Runnable
 				clientSock = serverSock.accept();
 				writer = new PrintWriter(clientSock.getOutputStream());
 				clientOutputStreams.add(writer);
-
+                                out = new ObjectOutputStream(clientSock.getOutputStream());
 				
 //                                String clientPCName = clientSock.getInetAddress().getHostName();
 				ta_chat.append("Got a connection from " + clientPCName + ".\n");
@@ -312,16 +318,17 @@ private static void closeServerSocket() {
         jLabel16 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         listModel = new DefaultListModel<>();
-        listModel.addElement("Chrome");
-        listModel.addElement("Mozilla Firefox");
-        listModel.addElement("Microsoft Edge");
-        listModel.addElement("Brave");
+        listModel.addElement("chrome.exe");
+        listModel.addElement("firefox.exe");
+        listModel.addElement("edge.exe");
+        listModel.addElement("Brave.exe");
         listModel.addElement("UC Browser");
-        listModel.addElement("Google");
+        listModel.addElement("Google.exe");
         jList1 = new javax.swing.JList<>(listModel);
         jTextField5 = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -347,6 +354,7 @@ private static void closeServerSocket() {
 
         jButton6.setBackground(new java.awt.Color(51, 255, 51));
         jButton6.setText("Start the Exam");
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -354,6 +362,7 @@ private static void closeServerSocket() {
         });
 
         jButton1.setText("Connected Devices");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -361,6 +370,7 @@ private static void closeServerSocket() {
         });
 
         jButton2.setText("Cheating Activities");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -368,6 +378,7 @@ private static void closeServerSocket() {
         });
 
         jButton3.setText("Restriction");
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -375,6 +386,7 @@ private static void closeServerSocket() {
         });
 
         jButton5.setText("Attendance Sheet");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -610,6 +622,7 @@ private static void closeServerSocket() {
 
         jLabel9.setForeground(new java.awt.Color(255, 0, 51));
         jLabel9.setText("+ add apps");
+        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel9MouseClicked(evt);
@@ -661,6 +674,7 @@ private static void closeServerSocket() {
 
         jLabel15.setForeground(new java.awt.Color(204, 0, 0));
         jLabel15.setText("+ add Browser");
+        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel15MouseClicked(evt);
@@ -778,6 +792,14 @@ private static void closeServerSocket() {
             }
         });
 
+        jButton12.setText("UPDATE LIST");
+        jButton12.setToolTipText("");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -797,7 +819,8 @@ private static void closeServerSocket() {
                                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton8))
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                            .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -805,15 +828,17 @@ private static void closeServerSocket() {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel16)
-                .addGap(37, 37, 37)
+                .addGap(35, 35, 35)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
                     .addComponent(jButton8))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(19, 19, 19))
         );
 
         jTabbedPane1.addTab("tab6", jPanel8);
@@ -996,14 +1021,30 @@ private static void closeServerSocket() {
      
      setTime();
     }                                         
-
+HashMap<String, ArrayList<String>> listMap = new HashMap<>();
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
         if (jToggleButton1.isSelected()) {
-                    jToggleButton1.setText("On");
-                    writer.println("brdon");
-                    writer.flush();
+            try{
+                jToggleButton1.setText("On");
+                writer.println("brdon");
+                writer.flush();
+                ArrayList<String> browserListData = new ArrayList<>();
+                for (int i = 0; i < listModel.size(); i++) {
+                    browserListData.add(listModel.getElementAt(i));
+                }
+                listMap.put("browsers", browserListData);
+                out.writeObject(listMap);
+                
+                out.flush();
+                
+                System.out.println("Browser list sent to client.");
+
                     
+            }catch(Exception e){
+                System.out.println("Error in message sending");
+            }
+
                 } else {
                     jToggleButton1.setText("Off");
                     writer.println("brdoff");
@@ -1124,6 +1165,11 @@ private static void closeServerSocket() {
                 }
 
     }                                         
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        // TODO add your handling code here:
+         
+    }                                         
    
     
     
@@ -1189,6 +1235,7 @@ private static void closeServerSocket() {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1253,14 +1300,14 @@ private static void closeServerSocket() {
     // End of variables declaration                   
 
     
-    public class ClientHandler implements Runnable	
-   {
+public class ClientHandler implements Runnable	
+{
        BufferedReader reader;
        Socket sock;
        PrintWriter client;
 
-       public ClientHandler(Socket clientSocket, PrintWriter user) 
-       {
+        public ClientHandler(Socket clientSocket, PrintWriter user) 
+        {
             client = user;
             try 
             {
