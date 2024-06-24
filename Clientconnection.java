@@ -86,8 +86,8 @@ public class Clientconnection {
         }
     }
  ObjectInputStream objectInputStream = null;
- ArrayList<String> browserListData = new ArrayList<>();;
-
+ ArrayList<String> browserListData = new ArrayList<>();
+ ArrayList<String> appListData = new ArrayList<>();
     private class IncomingReader implements Runnable {
         public void run() {
             String message;
@@ -150,7 +150,22 @@ public class Clientconnection {
                        System.out.println(message);
                        startapd = false;
                    }
-                   
+                   if(message.contains(",banapps")){
+                       String b = message.replace(",banapps","");
+                       appListData.add(b); 
+                   }                 
+                   if(message.contains(",appadd")){
+                       String ad = message.replace(",Browseadd","");
+                       System.out.println("WE GOT THE MESSAGE"+ad);
+                       appListData.add(ad);
+                       
+                   }
+                   if(message.contains(",appremove")){
+                       String ad = message.replace(",Browseremove", "");
+                        System.out.println("WE GOT THE MESSAGE"+ad);
+                       appListData.remove(ad);
+                       
+                   }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -251,18 +266,16 @@ public class Clientconnection {
                     
 
                     String appname;
-                    appname = "chrome.exe";
-                    appname.toLowerCase();
-
+                   
                     try
                     {
                         String line;
 
                         String pidInfo =" ";
                             
-                           while(pidInfo != appname)
+                           while(startapd)
                            {
-                               if(startapd){
+                               
                             pidInfo =" ";
                             Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
 
@@ -275,18 +288,14 @@ public class Clientconnection {
                                     pidInfo+=line;
                                 }
                                 input.close();
-                                if(pidInfo.contains(appname))
-                                {
-//                                  
-                                    //  System.out.println("HI UC Browser !!!!");
-   
-                                  
-                                    closeApplication(appname);
-                                    
-                                    
+                                for (String app : appListData){
+                                    System.out.println(app);
+                                    if(pidInfo.contains(app))
+                                    {
+                                        closeApplication(app);                                     
+                                    }
                                 }
-
-                         }
+                         
                             }
                         }
                         catch(Exception e)
