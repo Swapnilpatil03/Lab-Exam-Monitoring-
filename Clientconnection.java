@@ -86,7 +86,8 @@ public class Clientconnection {
         }
     }
  ObjectInputStream objectInputStream = null;
- ArrayList<String> bannedApps;
+ ArrayList<String> browserListData = new ArrayList<>();;
+
     private class IncomingReader implements Runnable {
         public void run() {
             String message;
@@ -107,25 +108,35 @@ public class Clientconnection {
                    
                    // -------------> for Browser Detection
                    if(message.contains("brdon")){
+                      
                        System.out.println(message);
-                       
                        startbr = true;
-                       HashMap<String, ArrayList<String>> listMap = (HashMap<String, ArrayList<String>>) in.readObject();
-                        ArrayList<String> browserListData = listMap.get("browsers");
-
-                        System.out.println("Received browser list data from server:");
-                        for (String element : browserListData) {
-                            System.out.println(element);
-                        }
-                        Thread browserd = new Thread(new Browsedetect(browserListData));
+                       Thread browserd = new Thread(new Browsedetect());
                        browserd.start();
                      
                    }
                    if(message.contains("brdoff")){
                        System.out.println(message);
                        startbr=false;
+                       browserListData.clear();
                    }
-                   
+                   if(message.contains(",banbrowsers")){
+                       String b = message.replace(",banbrowsers","");
+                       browserListData.add(b); 
+                       
+                   }
+                   if(message.contains(",Browseadd")){
+                       String ad = message.replace(",Browseadd","");
+                       System.out.println("WE GOT THE MESSAGE"+ad);
+                       browserListData.add(ad);
+                       
+                   }
+                   if(message.contains(",Browseremove")){
+                       String ad = message.replace(",Browseremove", "");
+                        System.out.println("WE GOT THE MESSAGE"+ad);
+                       browserListData.remove(ad);
+                       
+                   }
                    // ----------------> App detection
                    
                    if(message.contains("appdon")){
@@ -186,10 +197,7 @@ public class Clientconnection {
     }
     
     private class Browsedetect implements Runnable{
-        private ArrayList<String> browsers;
-        public Browsedetect(ArrayList<String> browsers) {
-            this.browsers = browsers;
-        }
+        
         public void run(){
             try
            {
@@ -198,8 +206,8 @@ public class Clientconnection {
                String pidInfo =" ";
             
                 
-                    if(startbr){
-                  pidInfo =" ";
+                 while(startbr){
+                 pidInfo =" ";
                  Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
 
                  BufferedReader input =  new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -209,11 +217,10 @@ public class Clientconnection {
                               pidInfo+=line; 
                      }
                       input.close();
-                      for (String browser : browsers) {
+                      for (String browser : browserListData) {
                           System.out.println(browser);
                       if(pidInfo.contains(browser))
-                      {
-                                     
+                      {   
                            closeApplication(browser);
                                 
                       }
