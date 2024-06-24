@@ -333,12 +333,12 @@ private static void closeServerSocket() {
         jLabel17 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         listModel2 = new DefaultListModel<>();
-        listModel2.addElement("Whatsapp");
-        listModel2.addElement("Telegram");
-        listModel2.addElement("Instagram");
-        listModel2.addElement("Twitter");
-        listModel2.addElement("Chatgpt");
-        listModel2.addElement("Bard");
+        listModel2.addElement("WhatsApp.exe");
+        listModel2.addElement("Telegram.exe");
+        listModel2.addElement("Instagram.exe");
+        listModel2.addElement("Twitter.exe");
+        listModel2.addElement("Chatgpt.exe");
+        listModel2.addElement("Bard.exe");
         jList2 = new javax.swing.JList<>(listModel2);
         jTextField6 = new javax.swing.JTextField();
         jButton9 = new javax.swing.JButton();
@@ -1072,6 +1072,13 @@ private static void closeServerSocket() {
                     jToggleButton3.setText("On");
                     writer.println("appdon");
                     writer.flush();
+                     for (int i = 0; i < listModel2.size(); i++) {
+                    writer.println(listModel2.getElementAt(i)+",banapps");
+                    writer.flush();
+                }
+                
+                System.out.println("Browser list sent to client.");
+
                     
                 } else {
                     jToggleButton3.setText("Off");
@@ -1148,8 +1155,10 @@ private static void closeServerSocket() {
                  JOptionPane.showMessageDialog(null, browse + " is present already in the list.");
        } else {
             listModel2.addElement(browse);
+            writer.println(browse+",appadd");
+            writer.flush();
             jTextField6.setText("");
-            
+
        } 
     }                                        
 
@@ -1160,6 +1169,8 @@ private static void closeServerSocket() {
                     int index = listModel2.indexOf(text);
                     if (index != -1) {
                         listModel2.remove(index);
+                        writer.println(jTextField5.getText()+",appremove");
+                        writer.flush();
                         jTextField6.setText("");
                     } else {
                         JOptionPane.showMessageDialog(null,  "Item not found in the list.");
