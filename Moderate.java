@@ -346,11 +346,14 @@ private static void closeServerSocket() {
         jScrollPane1 = new javax.swing.JScrollPane();
         ta_chat = new javax.swing.JTextArea();
 
+        setBackground(new java.awt.Color(255, 251, 238));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
         });
+
+        jPanel1.setBackground(new java.awt.Color(255, 204, 204));
 
         jButton6.setBackground(new java.awt.Color(51, 255, 51));
         jButton6.setText("Start the Exam");
@@ -451,6 +454,8 @@ private static void closeServerSocket() {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 51));
+
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabel4.setText("Server Address :");
 
@@ -499,6 +504,8 @@ private static void closeServerSocket() {
                     .addComponent(testCode))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTabbedPane1.setBackground(new java.awt.Color(240, 232, 221));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -931,16 +938,14 @@ private static void closeServerSocket() {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -1012,13 +1017,9 @@ private static void closeServerSocket() {
        if(timer!=null){
           timer.stop();
        }
-      
      hours = Integer.parseInt(hour.getText());
      minutes = Integer.parseInt(min.getText());
      seconds = Integer.parseInt(sec.getText());
-
-   
-     
      setTime();
     }                                         
 
@@ -1204,6 +1205,9 @@ private static void closeServerSocket() {
                 if (hours == 0 && minutes == 0 && seconds == 0) {
                     ((Timer)e.getSource()).stop();
                     System.out.println("Time up");
+                    hours=0;
+                    minutes=0;
+                    seconds=0;
                 }
             }
         });
@@ -1347,6 +1351,30 @@ public class ClientHandler implements Runnable
                         String data3 = message.replace(",Connected","");
                         addClientPCName(data3);
                         System.out.println("Connected "+data3);
+                        if (jToggleButton1.isSelected()){
+                            
+                           for (int i = 0; i < listModel.size(); i++) {
+                               writer.println(listModel.getElementAt(i)+",banbrowsers");
+                               writer.flush();
+                           }
+                           writer.println("brdon");
+                            writer.flush();
+                        }
+                        if (jToggleButton2.isSelected()){
+                            writer.println("pdon");
+                            writer.flush();
+
+                        }
+                        if (jToggleButton3.isSelected()){
+                            for (int i = 0; i < listModel2.size(); i++) {
+                                writer.println(listModel2.getElementAt(i)+",banapps");
+                                writer.flush();
+                            }
+                            writer.println("appdon");
+                            writer.flush();
+                        }
+                        
+                      
                         
                     }
                     
