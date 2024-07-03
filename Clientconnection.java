@@ -6,6 +6,8 @@
 package lab.exam.monitoring;
 
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.Timer;
 
 /**
  *
@@ -37,6 +40,7 @@ public class Clientconnection {
     public boolean startapd = false;
      ObjectInputStream in;
     int port = 2222;
+    
     public void conToExaminer(String ex){
         if (isConnected == false) 
         {
@@ -88,6 +92,10 @@ public class Clientconnection {
  ObjectInputStream objectInputStream = null;
  ArrayList<String> browserListData = new ArrayList<>();
  ArrayList<String> appListData = new ArrayList<>();
+ private static int hours = 0 ;
+ private static int minutes = 0;
+ private static int seconds = 0;
+ StudentMain studentMain = StudentMain.getInstance();
     private class IncomingReader implements Runnable {
         public void run() {
             String message;
@@ -166,14 +174,29 @@ public class Clientconnection {
                        appListData.remove(ad);
                        
                    }
+                   if(message.contains(",hours")){
+                       hours = Integer.parseInt(message.replace(",hours", ""));
+                   }
+                   if(message.contains(",minutes")){
+                       minutes = Integer.parseInt(message.replace(",minutes", ""));
+                   }if(message.contains(",seconds")){
+                       seconds = Integer.parseInt(message.replace(",seconds", ""));
+                       System.out.println("Data  is :"+hours+"\n"+minutes+"\n"+seconds);
+                       
+                       if (studentMain != null) {
+                       studentMain.onTime(hours , minutes , seconds);
+                       }else {
+                        System.out.println("StudentMain instance is null");
+                    }
+                       
+                   }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
-   
-
+    
     private class Pendrive implements Runnable {
         public void run() {
             try
@@ -358,5 +381,3 @@ public class Clientconnection {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-}
