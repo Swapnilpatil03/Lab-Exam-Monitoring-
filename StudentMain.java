@@ -26,18 +26,38 @@ public class StudentMain extends javax.swing.JFrame {
     String name;
     String rollNumber;
      Clientconnection tc ;
-    public StudentMain(String name , String rollNumber ) {
+      private static int hours = 0;
+    private static int minutes = 10;
+    private static int seconds = 0;
+    
+    public StudentMain() {
+        
+        initComponents();
+       instance = this;
+        setLocationRelativeTo(null);
+        
+    }
+     private static StudentMain instance;
+    public static StudentMain getInstance() {
+        return instance;
+    }
+    public void changes(String name , String rollNumber ){
         this.name = name;
         this.rollNumber = rollNumber;
         System.out.println(""+name+""+rollNumber);
         tc = new Clientconnection();
         sendDataToServer(name, rollNumber);
-        initComponents();
-       
-        setLocationRelativeTo(null);
-        
     }
-
+   public void onTime(int hou , int min , int sec){
+       hours = hou;
+       minutes = min;
+       seconds = sec;
+    System.out.println("Data got in studnetmain :"+hours+"\n"+minutes+"\n"+seconds);
+       setTime();
+   }
+   public void change(){
+       jLabel5.setText("Got message");
+   }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +74,8 @@ public class StudentMain extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 204));
@@ -94,21 +116,17 @@ public class StudentMain extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Start Timer");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 168, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(335, 335, 335))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addGap(122, 122, 122)
-                        .addComponent(jButton1)
-                        .addGap(359, 359, 359))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
@@ -120,8 +138,23 @@ public class StudentMain extends javax.swing.JFrame {
                             .addGap(325, 325, 325)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(335, 335, 335))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(122, 122, 122)
+                        .addComponent(jButton1)
+                        .addGap(110, 110, 110)
+                        .addComponent(jButton3)
+                        .addGap(28, 28, 28)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,11 +168,13 @@ public class StudentMain extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -166,8 +201,14 @@ public class StudentMain extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        tc.start=false;
+//        tc.start=false;
         
+    }                                        
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        setTime();
+
     }                                        
 public void sendDisconnect(){
       if (tc.writer != null) {
@@ -210,11 +251,65 @@ public void sendDisconnect(){
     // Variables declaration - do not modify                     
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jLabel5;
+    public javax.swing.JTextField jTextField1;
     // End of variables declaration                   
+    
+    Timer timer;
+    public void setTime(){
+        if(timer!=null){
+                  timer.stop();
+               }
 
+//        jLabel5.setEditable(false);
+        System.out.println("Inside seTimet");
+       timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateTimer();
+                jLabel5.setText(formatTime(hours, minutes, seconds));
+                
+                if (hours == 0 && minutes == 0 && seconds == 0) {
+                    ((Timer)e.getSource()).stop();
+                    System.out.println("Time up");
+                    hours=0;
+                    minutes=0;
+                    seconds=0;
+                }
+            }
+        });
+        timer.start();
+   }
+   private static void updateTimer() {
+        if (seconds == 0) {
+            if (minutes == 0) {
+                if (hours == 0) {
+                    return;
+                } else {
+                    hours--;
+                    minutes = 59;
+                    seconds = 59;
+                }
+            } else {
+                minutes--;
+                seconds = 59;
+            }
+        } else {
+            seconds--;
+        }
+    }
+
+    private static String formatTime(int hours, int minutes, int seconds) {
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+    
+    
+    
 }
+
+
